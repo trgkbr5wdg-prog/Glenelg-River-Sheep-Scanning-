@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glenelg River Sheep Scanning</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7f4;
+      color: #1e2b22;
+    }
+
+    header {
+      background: #245b3b;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 32px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 { margin: 0; }
+    h2 { color: #245b3b; }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    input {
+      border: 1px solid #c7d2ca;
+    }
+
+    button {
+      border: 0;
+      background: #245b3b;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #18442b;
+    }
+
+    #result {
+      margin-top: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Glenelg River Sheep Scanning</h1>
+    <p>Record and manage sheep pregnancy scanning results</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Add a sheep scan</h2>
+
+      <label for="sheepId">Sheep ID / EID</label>
+      <input id="sheepId" type="text" placeholder="e.g. 123456789" />
+
+      <label for="scanResult">Scan result</label>
+      <input id="scanResult" type="text" placeholder="e.g. Single, Twins, Empty" />
+
+      <button onclick="saveScan()">Save scan</button>
+      <p id="result"></p>
+    </section>
+
+    <section class="card">
+      <h2>About</h2>
+      <p>This app will store sheep scanning results securely using Supabase.</p>
+    </section>
+  </main>
+
+  <script>
+    function saveScan() {
+      const sheepId = document.getElementById("sheepId").value;
+      const scanResult = document.getElementById("scanResult").value;
+      const result = document.getElementById("result");
+
+      if (!sheepId || !scanResult) {
+        result.textContent = "Please enter a sheep ID and scan result.";
+        result.style.color = "crimson";
+        return;
+      }
+
+      result.textContent = "Saved locally for now: " + sheepId + " — " + scanResult;
+      result.style.color = "#245b3b";
+    }
+  </script>
+</body>
+</html>
