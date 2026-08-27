@@ -4,67 +4,191 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glenelg River Sheep Scanning</title>
+
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f7f4;
-      color: #1e2b22;
+      background: #f3f7f2;
+      color: #1c2c22;
     }
 
     header {
-      background: #245b3b;
-      color: white;
-      padding: 22px;
+      background: #1f5a3b;
+      color: #fff;
+      padding: 28px 18px;
       text-align: center;
     }
 
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.92;
+    }
+
     main {
-      max-width: 760px;
-      margin: 32px auto;
-      padding: 0 18px;
+      max-width: 880px;
+      margin: 30px auto;
+      padding: 0 16px 40px;
     }
 
     .card {
-      background: white;
+      background: #fff;
       border-radius: 14px;
       padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      margin-bottom: 22px;
+      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
     }
 
-    h1 { margin: 0; }
-    h2 { color: #245b3b; }
+    h2 {
+      margin-top: 0;
+      color: #1f5a3b;
+    }
 
-    input, button {
+    .help {
+      color: #526157;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input, select, textarea, button {
       width: 100%;
-      padding: 14px;
-      font-size: 16px;
+      font: inherit;
       border-radius: 8px;
-      margin-top: 10px;
     }
 
-    input {
-      border: 1px solid #c7d2ca;
+    input, select, textarea {
+      padding: 12px;
+      border: 1px solid #b8c7ba;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
 
     button {
       border: 0;
-      background: #245b3b;
+      background: #1f5a3b;
       color: white;
+      padding: 14px;
+      margin-top: 18px;
       font-weight: bold;
       cursor: pointer;
     }
 
     button:hover {
-      background: #18442b;
+      background: #15432b;
     }
 
-    #result {
+    #calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 7px;
       margin-top: 16px;
+    }
+
+    .weekday {
+      text-align: center;
       font-weight: bold;
+      font-size: 13px;
+      color: #59685d;
+      padding: 7px 0;
+    }
+
+    .day {
+      min-height: 48px;
+      border: 1px solid #d4ded5;
+      background: #f6f8f6;
+      border-radius: 8px;
+      padding: 7px;
+      text-align: left;
+      color: #6c756e;
+      cursor: default;
+    }
+
+    .ideal {
+      background: #ccebd4;
+      border-color: #499660;
+      color: #153c23;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .ideal:hover {
+      background: #aee0bb;
+    }
+
+    .selected {
+      background: #1f5a3b;
+      color: white;
+      border-color: #1f5a3b;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .key {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+      margin-right: 5px;
+      border-radius: 4px;
+    }
+
+    .key.green { background: #ccebd4; border: 1px solid #499660; }
+    .key.grey { background: #f6f8f6; border: 1px solid #d4ded5; }
+
+    #windowMessage, #confirmation {
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    #windowMessage {
+      background: #e4f4e8;
+      color: #174b29;
+    }
+
+    #confirmation {
+      background: #e1f1ff;
+      color: #12436a;
+    }
+
+    @media (max-width: 620px) {
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      header h1 { font-size: 24px; }
+      .card { padding: 18px; }
     }
   </style>
 </head>
@@ -72,43 +196,236 @@
 <body>
   <header>
     <h1>Glenelg River Sheep Scanning</h1>
-    <p>Record and manage sheep pregnancy scanning results</p>
+    <p>Find the right scanning dates and request your booking</p>
   </header>
 
   <main>
     <section class="card">
-      <h2>Add a sheep scan</h2>
+      <h2>1. Enter your joining details</h2>
+      <p class="help">
+        Enter your ram dates and service type. We will calculate the ideal window
+        and show eligible dates in the booking calendar.
+      </p>
 
-      <label for="sheepId">Sheep ID / EID</label>
-      <input id="sheepId" type="text" placeholder="e.g. 123456789" />
+      <div class="grid">
+        <div>
+          <label for="ramIn">Date rams went in</label>
+          <input id="ramIn" type="date" />
+        </div>
 
-      <label for="scanResult">Scan result</label>
-      <input id="scanResult" type="text" placeholder="e.g. Single, Twins, Empty" />
+        <div>
+          <label for="ramOut">Date rams came out</label>
+          <input id="ramOut" type="date" />
+        </div>
 
-      <button onclick="saveScan()">Save scan</button>
-      <p id="result"></p>
+        <div>
+          <label for="scanType">Scan service</label>
+          <select id="scanType">
+            <option value="multiples">Pregnancy and multiples</option>
+            <option value="wetdry">Wet/dry pregnancy check</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="ewes">Number of ewes</label>
+          <input id="ewes" type="number" min="1" placeholder="e.g. 450" />
+        </div>
+      </div>
+
+      <button type="button" onclick="calculateDates()">Show ideal booking dates</button>
+      <div id="windowMessage"></div>
     </section>
 
     <section class="card">
-      <h2>About</h2>
-      <p>This app will store sheep scanning results securely using Supabase.</p>
+      <h2>2. Choose an ideal booking date</h2>
+      <p class="help">Green dates are recommended. Click a green date to select it.</p>
+
+      <div id="calendar"></div>
+
+      <div class="legend">
+        <span><span class="key green"></span>Recommended scanning date</span>
+        <span><span class="key grey"></span>Outside calculated window</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Booking details</h2>
+
+      <div class="grid">
+        <div>
+          <label for="name">Contact name</label>
+          <input id="name" type="text" placeholder="Your name" />
+        </div>
+
+        <div>
+          <label for="farm">Property / farm name</label>
+          <input id="farm" type="text" placeholder="Property name" />
+        </div>
+
+        <div>
+          <label for="phone">Mobile number</label>
+          <input id="phone" type="tel" placeholder="04xx xxx xxx" />
+        </div>
+
+        <div>
+          <label for="email">Email address</label>
+          <input id="email" type="email" placeholder="you@example.com" />
+        </div>
+
+        <div class="full">
+          <label for="address">Property address or locality</label>
+          <input id="address" type="text" placeholder="Address, town or district" />
+        </div>
+
+        <div class="full">
+          <label for="notes">Mob details, access instructions or notes</label>
+          <textarea id="notes" placeholder="Breed, joining details, preferred time, access instructions, etc."></textarea>
+        </div>
+      </div>
+
+      <p class="help">
+        Selected date: <strong id="selectedDate">No date selected</strong>
+      </p>
+
+      <button type="button" onclick="requestBooking()">Request booking</button>
+      <div id="confirmation"></div>
     </section>
   </main>
 
   <script>
-    function saveScan() {
-      const sheepId = document.getElementById("sheepId").value;
-      const scanResult = document.getElementById("scanResult").value;
-      const result = document.getElementById("result");
+    let selectedBookingDate = "";
+    let idealStart = null;
+    let idealEnd = null;
 
-      if (!sheepId || !scanResult) {
-        result.textContent = "Please enter a sheep ID and scan result.";
-        result.style.color = "crimson";
+    const calendar = document.getElementById("calendar");
+
+    function addDays(date, days) {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+
+    function formatDate(date) {
+      return date.toLocaleDateString("en-AU", {
+        weekday: "short",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function dateFromInput(value) {
+      const parts = value.split("-");
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function calculateDates() {
+      const ramInValue = document.getElementById("ramIn").value;
+      const ramOutValue = document.getElementById("ramOut").value;
+      const scanType = document.getElementById("scanType").value;
+      const message = document.getElementById("windowMessage");
+
+      if (scanType === "multiples" && !ramInValue) {
+        alert("Please enter the date rams went in.");
         return;
       }
 
-      result.textContent = "Saved locally for now: " + sheepId + " — " + scanResult;
-      result.style.color = "#245b3b";
+      if (scanType === "wetdry" && !ramOutValue) {
+        alert("Please enter the date rams came out for a wet/dry scan.");
+        return;
+      }
+
+      if (scanType === "multiples") {
+        const ramIn = dateFromInput(ramInValue);
+        idealStart = addDays(ramIn, 80);
+        idealEnd = addDays(ramIn, 100);
+
+        message.textContent =
+          "Recommended pregnancy and multiples scanning window: " +
+          formatDate(idealStart) + " to " + formatDate(idealEnd) + ".";
+      } else {
+        const ramOut = dateFromInput(ramOutValue);
+        idealStart = addDays(ramOut, 42);
+        idealEnd = addDays(ramOut, 60);
+
+        message.textContent =
+          "Recommended wet/dry scanning window: " +
+          formatDate(idealStart) + " to " + formatDate(idealEnd) + ".";
+      }
+
+      message.style.display = "block";
+      selectedBookingDate = "";
+      document.getElementById("selectedDate").textContent = "No date selected";
+      buildCalendar(idealStart.getFullYear(), idealStart.getMonth());
+    }
+
+    function buildCalendar(year, month) {
+      calendar.innerHTML = "";
+
+      const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      weekdays.forEach(day => {
+        const label = document.createElement("div");
+        label.className = "weekday";
+        label.textContent = day;
+        calendar.appendChild(label);
+      });
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement("div");
+        calendar.appendChild(empty);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "day";
+        button.textContent = day;
+
+        if (date >= stripTime(idealStart) && date <= stripTime(idealEnd)) {
+          button.classList.add("ideal");
+          button.addEventListener("click", function () {
+            document.querySelectorAll(".day.selected").forEach(item => {
+              item.classList.remove("selected");
+            });
+
+            button.classList.add("selected");
+            selectedBookingDate = formatDate(date);
+            document.getElementById("selectedDate").textContent = selectedBookingDate;
+          });
+        }
+
+        calendar.appendChild(button);
+      }
+    }
+
+    function stripTime(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
+    function requestBooking() {
+      const name = document.getElementById("name").value.trim();
+      const farm = document.getElementById("farm").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const confirmation = document.getElementById("confirmation");
+
+      if (!selectedBookingDate) {
+        alert("Please calculate your dates and select a green calendar date.");
+        return;
+      }
+
+      if (!name || !farm || !phone) {
+        alert("Please enter your contact name, property name, and mobile number.");
+        return;
+      }
+
+      confirmation.textContent =
+        "Booking request received for " + selectedBookingDate +
+        ". We will confirm availability with you soon.";
+      confirmation.style.display = "block";
     }
   </script>
 </body>
